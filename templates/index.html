@@ -31,18 +31,39 @@
             height: 100%;
             overflow: hidden
         }
-        
+
         #calendar {
-            max-width: 700px
+            max-width: 650px
         }
     </style>
 </head>
 
 <body>
 
-
+    <div class="pos-f-t">
+        <div class="collapse" id="navbarToggleExternalContent">
+          <div class="bg-dark p-4">
+            <h5 class="text-white h4">Collapsed content</h5>
+            <span class="text-muted">Toggleable via the navbar brand.</span>
+          </div>
+        </div>
+        <nav class="navbar navbar-dark bg-dark">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </nav>
+      </div>
     <div class="content">
-        <div id='calendar'></div>
+        <div class="container">
+            <div class="col-8">
+                <div id='calendar'></div>
+            </div>
+            <div class="col">
+                <div id='calendar'></div>
+            </div>
+            
+        </div>
+        
     </div>
 
     <script src="static/js/jquery-3.3.1.min.js"></script>
@@ -54,9 +75,10 @@
     <script src='static/fullcalendar/packages/daygrid/main.js'></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
-
+            var data = '{{ all_data }}';
+            
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 plugins: ['interaction', 'dayGrid'],
                 defaultDate: '2020-02-12',
