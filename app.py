@@ -1,6 +1,10 @@
 from flask import *
 from pymongo import MongoClient
 
+import requests
+from bs4 import BeautifulSoup
+
+
 client = MongoClient("localhost", 27017)
 db = client.likelion
 
