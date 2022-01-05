@@ -1,0 +1,24 @@
+.offcanvas-head-style {
+    background-color: #efefef;
+    border-top: 3rem;
+    border-left: 3rem;
+}
+
+.offcanvas-content-image {
+    width: 200px;
+    height: 200px;
+    border-radius: 25px;
+}
+
+.offcanvas-div-align {
+    text-align: center;
+}
+
+.offcanvas-component {
+    margin-top: 2.5rem;
+}
+
+.offcanvas-list-component {
+    color:black;
+    font-size: large;
+}
