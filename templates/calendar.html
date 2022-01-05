@@ -55,8 +55,29 @@
             today = yyyy + '-' + mm + '-' + dd;
             return today
         }
+        function request_url() {
+            // 읽기
+            let url = $("#input-url").val();
+            // URL을 읽어서 HTML를 받아오고,
+            // 우리가 크롬 콘솔창에서 썼던 그 코드!
+            $.ajax({
+                type: "POST", // POST 방식으로 요청하겠다.
+                url: "/memo", // /memo라는 url에 요청하겠다.
+                data: { 'url_give': url }, // 데이터를 주는 방법
+                success: function (response) {
+                    // 성공하면
+                    if (response["result"] == "success") {
+                        alert(response["position"] + "\\n" + response["company_name"] + "\\n" + response["company_location"] + "\\n" + response["job_info"]);
+                        window.location.reload();
+                    } else {
+                        alert("서버 오류!");
+                    }
+                }
+            });
+        }
     </script>
 </head>
+
 
 <body>
 
@@ -64,12 +85,12 @@
     <div class="pos-f-t ms-auto">
         <nav class="navbar navbar-dark bg-dark">
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
             <div class="col">
-                
+
             </div>
 
 
@@ -208,8 +229,10 @@
                 $('#date').val(info.dateStr);
                 console.log('clicked on ' + info.dateStr);
             });
+
         });
     </script>
+
 
     <!-- js / bootstrap component -->
 
