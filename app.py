@@ -27,7 +27,7 @@ def index():
 @app.route('/calendar')
 def cal():
     all_db = list(db.likelion.find({},{'_id':0}))
-    return render_template('index.html', all_data = all_db)
+    return render_template('calendar.html', all_data = all_db)
 
 @app.route('/login', methods=["POST", "GET"])
 def login():
