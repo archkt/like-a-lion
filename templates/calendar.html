@@ -69,26 +69,6 @@
             modal.find(".modal-title").text("New message to " + recipient);
             modal.find(".modal-body input").val(recipient);
         });
-        
-        function listing() {
-            $.ajax({
-                type: "GET",
-                url: "/memo",
-                data: {},
-                success: function (response) {
-                    let articles = response["articles"];
-                    for (let i = 0; i < articles.length; i++) {
-                        make_card(
-                            articles[i]["comment"],
-                            articles[i]["desc"],
-                            articles[i]["image"],
-                            articles[i]["title"],
-                            articles[i]["url"]
-                        );
-                    }
-                },
-            });
-        }
 
         function remove_input_value() {
             document
@@ -310,7 +290,7 @@
                 // TODO:
                 // ajax call to render overlaying window that shows the information or something
                 $('#exampleModal').modal('show');
-                $('#date').val(info.dateStr);
+                $('#Apply-date').val(info.dateStr);
                 console.log(info.events);
 
                 //console.log('clicked on ' + info.dateStr);
