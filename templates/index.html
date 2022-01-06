@@ -13,26 +13,30 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
 
-  <!-- JS -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-    crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-    crossorigin="anonymous"></script>
+    <!-- 구글폰트 -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Stylish&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      // function remove_input_value(){
+      //   .querySelectorAll("input2")
+      //   .foreach( (input2)) => {
+      //     input2.value = "";
+      //     input2.removeAttribute("value");
+      //   }
+      // };
 
-  <!-- 구글폰트 -->
-  <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet" />
 
-  <script>
-    function openclose() {
-      if ($("#myModal").css("display") == "block") {
-        $("#myModal").modal("hide");
-        $("#btn-posting-box").text("Add");
-      } else {
-        $("#myModal").modal("show");
-        $("#btn-posting-box").text("-");
+
+      function openclose() {
+        if ($("#myModal").css("display") == "block") {
+          $("#myModal").modal("hide");
+          $("#btn-posting-box").text("Add");
+        } else {
+          $("#myModal").modal("show");
+          $("#btn-posting-box").text("-");
+        }
       }
     }
 
@@ -50,61 +54,36 @@
       modal.find(".modal-body input").val(recipient);
     });
 
-    function del() {
-      $('#inputs').querySelectorAll("input")
-      document.querySelectorAll("input")
-    }
-    function listing() {
-      $.ajax({
-        type: "GET",
-        url: "/memo",
-        data: {},
-        success: function (response) {
-          let articles = response["articles"];
-          for (let i = 0; i < articles.length; i++) {
-            make_card(
-              articles[i]["comment"],
-              articles[i]["desc"],
-              articles[i]["image"],
-              articles[i]["title"],
-              articles[i]["url"]
-            );
-          }
-        },
-      });
-    }
+      function remove_input_value(){
+        document
+          .querySelectorAll( "input" )
+          .forEach( ( input ) => {
+              input.value = "";
+              input.removeAttribute( "value" );
+          } );
+      }
 
-    function make_card(comment, desc, image, title, url) {
-      let temp_html = `<div class="card">
-                              <img class="card-img-top" src="${image}" alt="Card image cap">
-                              <div class="card-body">
-                              <a href="${url}" target="_blank" class="card-title">${title}</a>
-                              <p class="card-text">${desc}</p>
-                              <p class="card-text comment">${comment}</p>
-                              </div>
-                          </div>`;
-      $("#cards-box").append(temp_html);
-    }
-
-    function request_url() {
-      // 읽기
-      let url = $("#input-url").val();
-      // URL을 읽어서 HTML를 받아오고,
-      // 우리가 크롬 콘솔창에서 썼던 그 코드!
-      $.ajax({
-        type: "POST", // POST 방식으로 요청하겠다.
-        url: "/memo", // /memo라는 url에 요청하겠다.
-        data: { 'url_give': url }, // 데이터를 주는 방법
-        success: function (response) {
-          // 성공하면
-          if (response["result"] == "success") {
-            let position = response["position"];
-            alert(response["position"] + "\\n" + response["company_name"] + "\\n" + response["company_location"] + "\\n" + response["job_info"]);
-            window.location.reload();
-          } else {
-            alert("서버 오류!");
-          }
-        }
+      function request_url() {
+        // 읽기
+        let url = $("#input-url").val();
+        // URL을 읽어서 HTML를 받아오고,
+        // 우리가 크롬 콘솔창에서 썼던 그 코드!
+        $.ajax({
+          type: "POST", // POST 방식으로 요청하겠다.
+          url: "/memo", // /memo라는 url에 요청하겠다.
+          data: { 'url_give': url}, // 데이터를 주는 방법
+          success: function (response) {
+            // 성공하면
+            if (response["result"] == "success") {
+              $("#job-position-name").val(response["position"])
+              $("#company-name").val(response["company_name"])
+              $("#company-location").val(response["company_location"])
+              $("#job-description").val(response["job_info"])
+              alert("Success!");
+              // window.location.reload();
+            } else {
+              alert("Server Error!");
+            }}
       });
     }
   </script>
@@ -135,63 +114,129 @@
       display: block;
     }
 
-    #posting-box {
-      display: none;
-    }
-  </style>
-</head>
+      #posting-box {
+        display: none;
+      }
+      .modal-dialog{
+        overflow-y: initial !important
+      }
+      .modal-body{
+          height: 80vh;
+          overflow-y: auto;
+      }
+    </style>
+  </head>
 
-<body>
-  <div class="wrap">
-    <div class="jumbotron">
-      <h1 class="display-4">Job Application Tracker!</h1>
-      <p class="lead">Keep track of your job application process!</p>
-      <hr class="my-4" />
-      <p class="lead">
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-          data-whatever="@mdo">
-          Add
-        </button>
-      </p>
+  <body>
+    <div class="wrap">
+      <div class="jumbotron">
+        <h1 class="display-4">Job Application Tracker!</h1>
+        <p class="lead">Keep track of your job application process!</p>
+        <hr class="my-4" />
+        <p class="lead">
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-toggle="modal"
+            data-target="#exampleModal"
+            data-whatever="@mdo"
+            onclick = "remove_input_value()"
+          >
+            Add
+          </button>
+        </p>
+      </div>
     </div>
   </div>
 
-  <div class="question-box">
-    <h2>URL 받아서 정보 긁어오기</h2>
-    <input id="input-url" type="text" /> <button onclick="request_url()">클릭</button>
-  </div>
 
+    
+    <div class = "wrap2">
+      <div
+        class="modal fade"
+        id="exampleModal"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content" >
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">JOB INFO</h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
 
-  <div id="inputs" class="wrap2">
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">JOB INFO</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
+            <div class="modal-body">
+              <form>
+                <div class="url-box">
+                  <h2>URL 받아서 정보 긁어오기</h2>
+                  <input id="input-url" type="text" /> <button type = "button" class= "btn btn-primary" onclick = "request_url()">클릭</button>
+                </div>
 
-          <div class="modal-body">
-            <form>
-              <div class="form-group">
-                <label for="recipient-name" class="col-form-label">Recipient:</label>
-                <input type="text" class="form-control" id="recipient-name" />
-              </div>
-              <div class="form-group">
-                <label for="message-text" class="col-form-label">Message:</label>
-                <textarea class="form-control" id="message-text"></textarea>
-              </div>
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" onclick="del()">Delete</button>
-            <button type="button" class="btn btn-primary">Save</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">
-              Close
-            </button>
+                <div class="job_position_name">
+                  <label for="job_position_name" class="col-form-label"
+                    >Job Position Name</label
+                  >
+                  <input type="text" id = "job-position-name" class="form-control"/>
+                </div>
+
+                <div class="company-name">
+                  <label for="company-name" class="col-form-label"
+                    >company name:</label
+                  >
+                  <input type = "text" class="form-control" id="company-name"></input>
+                </div>
+                <div class="company-location">
+                  <label for="company-location" class="col-form-label"
+                    >company location:</label
+                  >
+                  <input type = "text" class="form-control" id="company-location"></input>
+                </div>
+                <div class="Apply-date">
+                  <label for="Apply-date" class="col-form-label"
+                    >Apply date:</label
+                  >
+                  <input type = "date" class="form-control" id="Apply-date"></input>
+                </div>
+                <div class="job-description">
+                  <label for="job-description" class="col-form-label"
+                    >Job Description:</label
+                  >
+                  <input type = "textarea" class="form-control" id="job-description"></input>
+                </div>
+                <div class="User-memo">
+                  <label for="User-memo" class="col-form-label"
+                    >Memo:</label
+                  >
+                  <input type = "textarea" class="form-control" id="User-memo"></input>
+                </div>
+                <div class = "upload-resume">
+                  >Upload Resume:
+                  <form action="/action_page.php">
+                    <input type="file" id="myFile" name="filename">
+                    <input type="submit">
+                  </form>
+                </div>
+              </form>
+            </div> 
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary">Save</button>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
       </div>
