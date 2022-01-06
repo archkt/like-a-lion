@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" href="static/fonts/icomoon/style.css">
+
+    <link href='static/fullcalendar/packages/core/main.css' rel='stylesheet' />
+    <link href='static/fullcalendar/packages/daygrid/main.css' rel='stylesheet' />
+    <link href='static/css/offcanvas-content.css' rel='stylesheet' />
+
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/style.css">
+    <title>Welcome</title>
+
+    <!-- Style -->
+    <style>
+        body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: scroll;
+
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        .center {
+            margin: 0;
+            position: relative;
+            top: 20%;
+            left: 90%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-55%, 40%);
+        }
+
+        .createnew {
+            margin: 0;
+            position: relative;
+            top: 30%;
+            left: 90%;
+            -ms-transform: translate(-50%, -50%);
+            transform: translate(-0%, 50%);
+        }
+
+        .appcard {
+            margin: 0 auto;
+            position: relative;
+            /* fixed => relative 로 바꾸면 scroll down 가능 */
+            top: 280px;
+            left: 28%;
+            transform: translate(-27%, -20%);
+
+
+
+        }
+    </style>
+
+
+
+</head>
+
+<body>
+
+    <!-- navbar -->
+    <div class="container">
+
+        <div class="pos-f-t ms-auto">
+            <nav class="navbar navbar-dark bg-dark">
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- off-canvas -->
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasWithBackdrop"
+            aria-labelledby="offcanvasWithBackdropLabel">
+            <div class="offcanvas-header offcanvas-head-style">
+                <h4 class="offcanvas-title" id="offcanvasWithBackdropLabel">Hi user</h4>
+                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="content offcanvas-div-align">
+                    <img class="offcanvas-content-image" src="static/images/spongebob.jpeg">
+                </div>
+                <div>
+                    <ul>
+                        <li class="offcanvas-component"><a href="#" class="offcanvas-list-component">Action</a></li>
+                        <li class="offcanvas-component"><a href="#" class="offcanvas-list-component">Another
+                                action</a>
+                        </li>
+                        <li class="offcanvas-component"><a href="#" class="offcanvas-list-component">Something else
+                                here</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll Down-->
+
+        <!-- Buttons_WL, Ap, In, Re-->
+        <div>
+
+            <div class="center">
+                <button type="button" class="btn btn-light">Wish List</button>
+                <button type="button" class="btn btn-light">Applied</button>
+                <button type="button" class="btn btn-light">Interview</button>
+                <button type="button" class="btn btn-light">Rejected</button>
+            </div>
+
+            <!-- Button _ Create New  -->
+            <div class="createnew">
+                <button type="button" class="btn btn-light"> +Create New </button>
+            </div>
+        </div>
+
+
+        <!-- Card _ Application List -->
+        <div class="card-columns appcard">
+            <div class="card">
+                <div class="card-header">
+                    ERM
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Position : Associate, Corporate Sustainability(Entry Level)</h5>
+                    <p class="card-text">Apply Date : 2022-01-05</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    REG
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Position : Corporate Environmental&Social Responsilbility Intern</h5>
+                    <p class="card-text">Apply Date : 2022-02-05</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    Karbone
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Position : Sustainability Sales Origination</h5>
+                    <p class="card-text">Interview Date : 2022-01-14</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    Featured
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    Featured
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <!-- js / bootstrap component -->
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
+        <script src="static/js/main.js"></script>
+    </div>
+
+</body>
+
+</html>
