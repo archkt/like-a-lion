@@ -31,7 +31,8 @@
         body {
             margin: 0;
             height: 100%;
-            overflow: hidden
+            overflow: hidden;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
         }
 
         ul {
@@ -70,52 +71,61 @@
 
 
         }
-
     </style>
     <!-- JS -->
 
 </head>
 
 <body>
-    <div class = "wrap">
-        <!-- navbar -->
-        <div class = "container">
+    <!-- navbar -->
+    <div>
+        <nav class="navbar navbar-dark bg-dark">
+            <button class="navbar-brand navbar-toggler" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop" aria-expanded="false"
+                aria-label="Toggle navigation" style="margin-left:1rem;">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <ul class="nav nav-pills navbar-right">
+                <li class="nav-item active">
+                    <a href="/index" class="nav-link" style="color:whitesmoke">index</a>
+                </li>
+                <li class="nav-item active" style="margin-left:2rem;">
+                    <a href="/calendar" class="nav-link" style="color:whitesmoke">calendar</a>
+                </li>
+                <li class="nav-item active" style="margin-left:2rem;">
+                    <a href="/board" class="nav-link" style="color:whitesmoke">board</a>
+                </li>
+            </ul>
 
-        <div class="pos-f-t ms-auto">
-            <nav class="navbar navbar-dark bg-dark">
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </nav>
+
+
+            <a href="/logout" class="nav-link" style="color:whitesmoke; margin-right:2rem">Logout</a>
+        </nav>
+    </div>
+
+    <!-- off-canvas -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasWithBackdrop"
+        aria-labelledby="offcanvasWithBackdropLabel">
+        <div class="offcanvas-header offcanvas-head-style">
+            <h4 class="offcanvas-title" id="offcanvasWithBackdropLabel">Hi user</h4>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-
-        <!-- off-canvas -->
-        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasWithBackdrop"
-            aria-labelledby="offcanvasWithBackdropLabel">
-            <div class="offcanvas-header offcanvas-head-style">
-                <h4 class="offcanvas-title" id="offcanvasWithBackdropLabel">Hi user</h4>
-                <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
-                    aria-label="Close"></button>
+        <div class="offcanvas-body">
+            <div class="content offcanvas-div-align">
+                <img class="offcanvas-content-image" src="static/images/spongebob.jpeg">
             </div>
-            <div class="offcanvas-body">
-                <div class="content offcanvas-div-align">
-                    <img class="offcanvas-content-image" src="static/images/spongebob.jpeg">
-                </div>
-                <div>
-                    <ul>
-                        <li class="offcanvas-component"><a href="#" class="offcanvas-list-component">Action</a></li>
-                        <li class="offcanvas-component"><a href="#" class="offcanvas-list-component">Another action</a>
-                        </li>
-                        <li class="offcanvas-component"><a href="#" class="offcanvas-list-component">Something else
-                                here</a>
-                        </li>
-                    </ul>
-                </div>
+            <div>
+                <ul>
+                    <li class="offcanvas-component"><a href="#" class="offcanvas-list-component">Profile</a></li>
+                    <li class="offcanvas-component"><a href="#" class="offcanvas-list-component">Another action</a></li>
+                    <li class="offcanvas-component"><a href="#" class="offcanvas-list-component">Something else here</a>
+                    </li>
+                </ul>
             </div>
         </div>
+    </div>
 
+    <div class="wrap">
         <!-- Buttons_WL, Ap, In, Re-->
         <div>
 
@@ -192,7 +202,7 @@
             crossorigin="anonymous"></script>
         <script src="static/js/main.js"></script>
     </div>
-</div>
+    </div>
 </body>
 
 </html>

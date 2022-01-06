@@ -59,6 +59,7 @@ def listing():
     # articles라는 키 값으로 영화정보 내려주기
     return jsonify({'result':'success', 'articles':result})
 
+
 ## URL Crawling
 @app.route('/memo', methods=['POST'])
 def url_crawling():
@@ -81,6 +82,10 @@ def url_crawling():
     # db.articles.insert_one(article)
     print("Hi")
     return jsonify({'result': 'success', 'position': position, 'company_name': company_name, 'company_location': company_location, 'job_info':job_info})
+
+@app.route('/board', methods=['GET'])
+def board():
+    return render_template('board.html')
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
