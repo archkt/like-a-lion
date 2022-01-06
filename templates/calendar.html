@@ -38,6 +38,10 @@
             list-style-type: none;
         }
 
+        .nav>li>a:hover {
+            background-color: lightgrey;
+        }
+
         #calendar {
             max-width: 700px
         }
@@ -47,12 +51,12 @@
     <script>
         // get today's date
         function today() {
-            var today = new Date();
-            var dd = String(today.getDate()).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-            var yyyy = today.getFullYear();
+            var now = new Date();
 
-            today = yyyy + '-' + mm + '-' + dd;
+            var day = ("0" + now.getDate()).slice(-2);
+            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+            var today = now.getFullYear() + "-" + (month) + "-" + (day);
             return today
         }
         function request_url() {
@@ -78,19 +82,28 @@
 <body>
 
     <!-- navbar -->
-    <div class="pos-f-t ms-auto">
+    <div>
         <nav class="navbar navbar-dark bg-dark">
-            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
+            <button class="navbar-brand navbar-toggler" type="button" data-bs-toggle="offcanvas"
                 data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop" aria-expanded="false"
-                aria-label="Toggle navigation">
+                aria-label="Toggle navigation" style="margin-left:1rem;">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="col">
+            <ul class="nav nav-pills navbar-right">
+                <li class="nav-item active">
+                    <a href="/index" class="nav-link" style="color:whitesmoke">index</a>
+                </li>
+                <li class="nav-item active" style="margin-left:2rem;">
+                    <a href="/calendar" class="nav-link" style="color:whitesmoke">calendar</a>
+                </li>
+                <li class="nav-item active" style="margin-left:2rem;">
+                    <a href="/calendar" class="nav-link" style="color:whitesmoke">calendar</a>
+                </li>
+            </ul>
 
-            </div>
 
 
-            <a href="/" class="nav-link" style="color:whitesmoke">Logout</a>
+            <a href="/logout" class="nav-link" style="color:whitesmoke; margin-right:2rem">Logout</a>
         </nav>
     </div>
 
@@ -107,7 +120,7 @@
             </div>
             <div>
                 <ul>
-                    <li class="offcanvas-component"><a href="#" class="offcanvas-list-component">Action</a></li>
+                    <li class="offcanvas-component"><a href="#" class="offcanvas-list-component">Profile</a></li>
                     <li class="offcanvas-component"><a href="#" class="offcanvas-list-component">Another action</a></li>
                     <li class="offcanvas-component"><a href="#" class="offcanvas-list-component">Something else here</a>
                     </li>
@@ -126,17 +139,29 @@
 
     <!-- create modal window -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Create</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">JOB INFO</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form>
                         <div class="mb-3">
+                            <label for="url" class="col-form-label">URL</label>
+                            <div class="row">
+                                <div class="col-8">
+                                    <input type="text" class="form-control" id="url">
+                                </div>
+                                <div class="col">
+                                    <button type="button" class="btn btn-primary">generate</button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="mb-3">
                             <label for="date" class="col-form-label">Date:</label>
-                            <input type="text" class="form-control" id="date">
+                            <input type="date" class="form-control" id="date">
                         </div>
                         <div class="mb-3">
                             <label for="message-text" class="col-form-label">Message:</label>
@@ -145,8 +170,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
@@ -223,7 +248,9 @@
                 // ajax call to render overlaying window that shows the information or something
                 $('#exampleModal').modal('show');
                 $('#date').val(info.dateStr);
-                console.log('clicked on ' + info.dateStr);
+                console.log(info.events);
+                
+                //console.log('clicked on ' + info.dateStr);
             });
 
         });

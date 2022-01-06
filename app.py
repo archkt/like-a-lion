@@ -45,6 +45,11 @@ def login():
             return redirect(url_for('mainpage'))
         else:
             return render_template('login.html')
+
+@app.route('/logout', methods=["GET"])
+def logout():
+    session.pop("login")
+    return redirect(url_for('index'))
     
 
 @app.route('/memo', methods=['GET'])

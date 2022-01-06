@@ -1,89 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Webpage Title -->
-    <title>Job Application Tracker</title>
 
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+<head>
+  <!-- Webpage Title -->
+  <title>Job Application Tracker</title>
 
-    <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-      crossorigin="anonymous"
-    />
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <!-- JS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-      crossorigin="anonymous"
-    ></script>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
 
-    <!-- 구글폰트 -->
-    <link
-      href="https://fonts.googleapis.com/css?family=Stylish&display=swap"
-      rel="stylesheet"
-    />
+  <!-- JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
 
-    <script>
-      function openclose() {
-        if ($("#myModal").css("display") == "block") {
-          $("#myModal").modal("hide");
-          $("#btn-posting-box").text("Add");
-        } else {
-          $("#myModal").modal("show");
-          $("#btn-posting-box").text("-");
-        }
+  <!-- 구글폰트 -->
+  <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet" />
+
+  <script>
+    function openclose() {
+      if ($("#myModal").css("display") == "block") {
+        $("#myModal").modal("hide");
+        $("#btn-posting-box").text("Add");
+      } else {
+        $("#myModal").modal("show");
+        $("#btn-posting-box").text("-");
       }
+    }
 
-      $(document).ready(function () {
-        $("#cards-box").html("");
-        listing();
-      });
-      $("#exampleModal").on("show.bs.modal", function (event) {
-        var button = $(event.relatedTarget); // Button that triggered the modal
-        var recipient = button.data("whatever"); // Extract info from data-* attributes
-        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-        var modal = $(this);
-        modal.find(".modal-title").text("New message to " + recipient);
-        modal.find(".modal-body input").val(recipient);
-      });
-      function listing() {
-        $.ajax({
-          type: "GET",
-          url: "/memo",
-          data: {},
-          success: function (response) {
-            let articles = response["articles"];
-            for (let i = 0; i < articles.length; i++) {
-              make_card(
-                articles[i]["comment"],
-                articles[i]["desc"],
-                articles[i]["image"],
-                articles[i]["title"],
-                articles[i]["url"]
-              );
-            }
-          },
-        });
-      }
+    $(document).ready(function () {
+      $("#cards-box").html("");
+      listing();
+    });
+    $("#exampleModal").on("show.bs.modal", function (event) {
+      var button = $(event.relatedTarget); // Button that triggered the modal
+      var recipient = button.data("whatever"); // Extract info from data-* attributes
+      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+      var modal = $(this);
+      modal.find(".modal-title").text("New message to " + recipient);
+      modal.find(".modal-body input").val(recipient);
+    });
 
-      function make_card(comment, desc, image, title, url) {
-        let temp_html = `<div class="card">
+    function del() {
+      $('#inputs').querySelectorAll("input")
+      document.querySelectorAll("input")
+    }
+    function listing() {
+      $.ajax({
+        type: "GET",
+        url: "/memo",
+        data: {},
+        success: function (response) {
+          let articles = response["articles"];
+          for (let i = 0; i < articles.length; i++) {
+            make_card(
+              articles[i]["comment"],
+              articles[i]["desc"],
+              articles[i]["image"],
+              articles[i]["title"],
+              articles[i]["url"]
+            );
+          }
+        },
+      });
+    }
+
+    function make_card(comment, desc, image, title, url) {
+      let temp_html = `<div class="card">
                               <img class="card-img-top" src="${image}" alt="Card image cap">
                               <div class="card-body">
                               <a href="${url}" target="_blank" class="card-title">${title}</a>
@@ -91,140 +83,120 @@
                               <p class="card-text comment">${comment}</p>
                               </div>
                           </div>`;
-        $("#cards-box").append(temp_html);
-      }
+      $("#cards-box").append(temp_html);
+    }
 
-      function request_url() {
-        // 읽기
-        let url = $("#input-url").val();
-        // URL을 읽어서 HTML를 받아오고,
-        // 우리가 크롬 콘솔창에서 썼던 그 코드!
-        $.ajax({
-          type: "POST", // POST 방식으로 요청하겠다.
-          url: "/memo", // /memo라는 url에 요청하겠다.
-          data: { 'url_give': url}, // 데이터를 주는 방법
-          success: function (response) {
-            // 성공하면
-            if (response["result"] == "success") {
-              alert(response["position"] + "\\n" + response["company_name"] + "\\n" + response["company_location"] + "\\n" + response["job_info"]);
-              window.location.reload();
-            } else {
-              alert("서버 오류!");
-            }}
+    function request_url() {
+      // 읽기
+      let url = $("#input-url").val();
+      // URL을 읽어서 HTML를 받아오고,
+      // 우리가 크롬 콘솔창에서 썼던 그 코드!
+      $.ajax({
+        type: "POST", // POST 방식으로 요청하겠다.
+        url: "/memo", // /memo라는 url에 요청하겠다.
+        data: { 'url_give': url }, // 데이터를 주는 방법
+        success: function (response) {
+          // 성공하면
+          if (response["result"] == "success") {
+            let position = response["position"];
+            alert(response["position"] + "\\n" + response["company_name"] + "\\n" + response["company_location"] + "\\n" + response["job_info"]);
+            window.location.reload();
+          } else {
+            alert("서버 오류!");
+          }
+        }
       });
-      }
-    </script>
+    }
+  </script>
 
-    <!-- style -->
-    <style type="text/css">
-      * {
-        font-family: "Stylish", sans-serif;
-      }
+  <!-- style -->
+  <style type="text/css">
+    * {
+      font-family: "Stylish", sans-serif;
+    }
 
-      .wrap {
-        width: 900px;
-        margin: auto;
-      }
+    .wrap {
+      width: 900px;
+      margin: auto;
+    }
 
-      .comment {
-        color: blue;
-        font-weight: bold;
-      }
+    .comment {
+      color: blue;
+      font-weight: bold;
+    }
 
-      .form-post {
-        max-width: 500px;
-        padding: 2rem;
-        margin: 2rem auto;
-        border-color: #e9ecef;
-        border-radius: 0.3rem;
-        border: solid;
-        display: block;
-      }
+    .form-post {
+      max-width: 500px;
+      padding: 2rem;
+      margin: 2rem auto;
+      border-color: #e9ecef;
+      border-radius: 0.3rem;
+      border: solid;
+      display: block;
+    }
 
-      #posting-box {
-        display: none;
-      }
-    </style>
-  </head>
+    #posting-box {
+      display: none;
+    }
+  </style>
+</head>
 
-  <body>
-    <div class="wrap">
-      <div class="jumbotron">
-        <h1 class="display-4">Job Application Tracker!</h1>
-        <p class="lead">Keep track of your job application process!</p>
-        <hr class="my-4" />
-        <p class="lead">
-          <button
-            type="button"
-            class="btn btn-primary"
-            data-toggle="modal"
-            data-target="#exampleModal"
-            data-whatever="@mdo"
-          >
-            Add
-          </button>
-        </p>
-      </div>
+<body>
+  <div class="wrap">
+    <div class="jumbotron">
+      <h1 class="display-4">Job Application Tracker!</h1>
+      <p class="lead">Keep track of your job application process!</p>
+      <hr class="my-4" />
+      <p class="lead">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+          data-whatever="@mdo">
+          Add
+        </button>
+      </p>
     </div>
+  </div>
 
-    <div class="question-box">
-      <h2>URL 받아서 정보 긁어오기</h2>
-      <input id="input-url" type="text" /> <button onclick = "request_url()">클릭</button>
-    </div>
+  <div class="question-box">
+    <h2>URL 받아서 정보 긁어오기</h2>
+    <input id="input-url" type="text" /> <button onclick="request_url()">클릭</button>
+  </div>
 
-    
-    <div class = "wrap2">
-      <div
-        class="modal fade"
-        id="exampleModal"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-xl" role="document">
-          <div class="modal-content" ">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">JOB INFO</h5>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
 
-            <div class="modal-body">
-              <form>
-                <div class="form-group">
-                  <label for="recipient-name" class="col-form-label"
-                    >Recipient:</label
-                  >
-                  <input type="text" class="form-control" id="recipient-name" />
-                </div>
-                <div class="form-group">
-                  <label for="message-text" class="col-form-label"
-                    >Message:</label
-                  >
-                  <textarea class="form-control" id="message-text"></textarea>
-                </div>
-              </form>
-            </div> 
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary">Save</button>
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-dismiss="modal"
-              >
-                Close
-              </button>
-            </div>
+  <div id="inputs" class="wrap2">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">JOB INFO</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Recipient:</label>
+                <input type="text" class="form-control" id="recipient-name" />
+              </div>
+              <div class="form-group">
+                <label for="message-text" class="col-form-label">Message:</label>
+                <textarea class="form-control" id="message-text"></textarea>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="del()">Delete</button>
+            <button type="button" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              Close
+            </button>
           </div>
         </div>
       </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>
