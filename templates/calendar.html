@@ -59,7 +59,7 @@
             var today = now.getFullYear() + "-" + (month) + "-" + (day);
             return today
         }
-        
+
         $("#exampleModal").on("show.bs.modal", function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
             var recipient = button.data("whatever"); // Extract info from data-* attributes
@@ -97,6 +97,30 @@
                     }
                 }
             });
+        }
+        function save() {
+            url = $('#input-url').val()
+            job_position = $("#job-position-name").val()
+            job_description = $("#job-description").val()
+            company_name = $("#company-name").val()
+            company_location = $("#company-location").val()
+            date = $("#Apply-date").val()
+
+            $.ajax({
+                type: "POST",
+                url: "/save",
+                data: {
+                    'url': url,
+                    'job_position': job_position,
+                    'job_description': job_description,
+                    'company_name': company_name,
+                    'company_location': company_location,
+                    'date': date
+                },
+                success: function(response) {
+                    alert(response['success_msg'])
+                }
+            })
         }
     </script>
 </head>
@@ -211,7 +235,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-primary" onclick="save()">Save</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">
                         Close
                     </button>
@@ -286,17 +310,19 @@
             });
 
             calendar.render();
+
+            // if click calendar day grid
             calendar.on('dateClick', function (info) {
-                // TODO:
-                // ajax call to render overlaying window that shows the information or something
                 $('#exampleModal').modal('show');
                 $('#Apply-date').val(info.dateStr);
-                console.log(info.events);
-
-                //console.log('clicked on ' + info.dateStr);
             });
 
         });
+
+        $('.fc-day-grid-event').click(function () {
+            // TODO: 1) ajax request: pass the data to DB to find the specific one
+            // 2) create separate list tab to show the clicked one
+        })
     </script>
 
 

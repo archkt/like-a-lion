@@ -91,5 +91,26 @@ def url_crawling():
 def board():
     return render_template('board.html')
 
+@app.route('/save', methods=['POST'])
+def save():
+    url = request.form['url']
+    job_position = request.form['job_position']
+    job_description = request.form['job_description']
+    company_name = request.form['company_name']
+    company_location = request.form['company_location']
+    date = request.form['date']
+    
+    info = {
+        'url': url,
+        'job_position': job_position,
+        'job_description': job_description,
+        'company_name': company_name,
+        'company_location': company_location,
+        'date': date
+        }
+    db.application.insert_one(info)
+
+    return jsonify({'success_msg': "Successfully Saved!"})
+
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
