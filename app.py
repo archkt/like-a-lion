@@ -24,6 +24,10 @@ def index():
     else:
         return redirect(url_for('login'))
 
+@app.route('/index')
+def mainpage():
+    return render_template('index.html')
+
 @app.route('/calendar')
 def cal():
     all_db = list(db.likelion.find({},{'_id':0}))
@@ -38,7 +42,7 @@ def login():
     else:
         login_status = "login" in session and session["login"] == 'true'
         if login_status:
-            return redirect(url_for('cal'))
+            return redirect(url_for('mainpage'))
         else:
             return render_template('login.html')
     
