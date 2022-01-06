@@ -57,7 +57,7 @@ def listing():
 ## URL Crawling
 @app.route('/memo', methods=['POST'])
 def url_crawling():
-		# 클라이언트로부터 데이터를 받는 부분
+	# 클라이언트로부터 데이터를 받는 부분
     url_receive = request.form['url_give']
     # Glassdoor Job position Crawling Code
     headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
@@ -74,6 +74,7 @@ def url_crawling():
     # article = {'url': url_receive, 'comment': comment_receive, 'image': url_image,
     #            'title': url_title, 'desc': url_description}
     # db.articles.insert_one(article)
+    print("Hi")
     return jsonify({'result': 'success', 'position': position, 'company_name': company_name, 'company_location': company_location, 'job_info':job_info})
 
 if __name__ == '__main__':
