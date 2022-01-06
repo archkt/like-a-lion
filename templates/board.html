@@ -24,7 +24,6 @@
     <link rel="stylesheet" href="static/css/style.css">
     <title>Welcome</title>
 
-
     <!-- Style -->
     <style>
         html,
@@ -32,6 +31,8 @@
             margin: 0;
             height: 100%;
             overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: scroll;
             font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
         }
 
@@ -39,44 +40,43 @@
             list-style-type: none;
         }
 
-        #calendar {
-            max-width: 700px
-        }
-    </style>
-    <!-- Button Style -->
-    <style>
         .center {
             margin: 0;
-            position: absolute;
+            position: relative;
             top: 20%;
-            left: 50%;
+            left: 90%;
             -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
+            transform: translate(-55%, 40%);
         }
 
         .createnew {
             margin: 0;
-            position: absolute;
+            position: relative;
             top: 30%;
             left: 90%;
             -ms-transform: translate(-50%, -50%);
-            transform: translate(-50%, -50%);
+            transform: translate(-0%, 50%);
         }
 
         .appcard {
             margin: 0 auto;
-            position: fixed;
+            position: relative;
+            /* fixed => relative 로 바꾸면 scroll down 가능 */
             top: 280px;
             left: 28%;
+            transform: translate(-27%, -20%);
+
 
 
         }
     </style>
-    <!-- JS -->
+
+
 
 </head>
 
 <body>
+
     <!-- navbar -->
     <div>
         <nav class="navbar navbar-dark bg-dark">
@@ -125,7 +125,8 @@
         </div>
     </div>
 
-    <div class="wrap">
+        <!-- Scroll Down-->
+
         <!-- Buttons_WL, Ap, In, Re-->
         <div>
 
@@ -147,29 +148,29 @@
         <div class="card-columns appcard">
             <div class="card">
                 <div class="card-header">
-                    Featured
+                    ERM
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <h5 class="card-title">Position : Associate, Corporate Sustainability(Entry Level)</h5>
+                    <p class="card-text">Apply Date : 2022-01-05</p>
                 </div>
             </div>
             <div class="card">
                 <div class="card-header">
-                    Featured
+                    REG
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <h5 class="card-title">Position : Corporate Environmental&Social Responsilbility Intern</h5>
+                    <p class="card-text">Apply Date : 2022-02-05</p>
                 </div>
             </div>
             <div class="card">
                 <div class="card-header">
-                    Featured
+                    Karbone
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <h5 class="card-title">Position : Sustainability Sales Origination</h5>
+                    <p class="card-text">Interview Date : 2022-01-14</p>
                 </div>
             </div>
             <div class="card">
@@ -202,7 +203,7 @@
             crossorigin="anonymous"></script>
         <script src="static/js/main.js"></script>
     </div>
-    </div>
+
 </body>
 
 </html>

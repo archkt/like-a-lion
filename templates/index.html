@@ -296,7 +296,15 @@
               <input id="input-url" type="text" /> <button type="button" class="btn btn-primary"
                 onclick="request_url()">클릭</button>
             </div>
-
+            <div class = "status">
+              <label for="status">Board:</label>
+                <select id="status" name="status">
+                  <option value="wishlist">Wish list</option>
+                  <option value="applied">Applied</option>
+                  <option value="interview">Interview</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+            </div>
             <div class="job_position_name">
               <label for="job_position_name" class="col-form-label">Job Position Name</label>
               <input type="text" id="job-position-name" class="form-control" />
