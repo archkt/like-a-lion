@@ -96,6 +96,8 @@
     }
 
     function remove_input_value() {
+      $("#job-description").val('');
+      $("#User-memo").val('');
       document
         .querySelectorAll("input")
         .forEach((input) => {
@@ -128,6 +130,33 @@
           }
         }
       });
+    }
+    function save() {
+      url = $('#input-url').val()
+      job_position = $("#job-position-name").val()
+      job_description = $("#job-description").val()
+      company_name = $("#company-name").val()
+      company_location = $("#company-location").val()
+      date = $("#Apply-date").val()
+      memo = $('#User-memo').val()
+
+      $.ajax({
+        type: "POST",
+        url: "/save",
+        data: {
+          'url': url,
+          'job_position': job_position,
+          'job_description': job_description,
+          'company_name': company_name,
+          'company_location': company_location,
+          'date': date,
+          'memo': memo
+        },
+        success: function (response) {
+          alert(response['success_msg'])
+          window.location.reload();
+        }
+      })
     }
   </script>
 
@@ -287,11 +316,11 @@
             </div>
             <div class="job-description">
               <label for="job-description" class="col-form-label">Job Description:</label>
-              <input type="textarea" class="form-control" id="job-description"></input>
+              <textarea class="form-control" id="job-description" rows="14"></textarea>
             </div>
             <div class="User-memo">
               <label for="User-memo" class="col-form-label">Memo:</label>
-              <input type="textarea" class="form-control" id="User-memo"></input>
+              <textarea class="form-control" id="User-memo" rows="14"></textarea>
             </div>
             <div class="upload-resume">
               >Upload Resume:
@@ -303,7 +332,7 @@
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-primary" onclick="save()">Save</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
             Close
           </button>

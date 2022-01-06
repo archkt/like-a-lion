@@ -80,11 +80,6 @@ def url_crawling():
     company_name = company_name.strip()
     company_location = company_location.strip()
 
-    # mongoDB에 넣는 부분
-    # article = {'url': url_receive, 'comment': comment_receive, 'image': url_image,
-    #            'title': url_title, 'desc': url_description}
-    # db.articles.insert_one(article)
-    print("Hi")
     return jsonify({'result': 'success', 'position': position, 'company_name': company_name, 'company_location': company_location, 'job_info':job_info})
 
 @app.route('/board', methods=['GET'])
@@ -99,6 +94,7 @@ def save():
     company_name = request.form['company_name']
     company_location = request.form['company_location']
     date = request.form['date']
+    memo = request.form['memo']
     
     info = {
         'url': url,
@@ -106,7 +102,8 @@ def save():
         'job_description': job_description,
         'company_name': company_name,
         'company_location': company_location,
-        'date': date
+        'date': date,
+        'memo': memo
         }
     db.application.insert_one(info)
 
