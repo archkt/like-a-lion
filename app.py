@@ -55,7 +55,7 @@ def logout():
 @app.route('/memo', methods=['GET'])
 def listing():
     # 모든 document 찾기 & _id 값은 출력에서 제외하기
-    result = list(db.articles.find({},{'_id':0}))
+    result = list(db.likelion.find({},{'_id':0}))
     # articles라는 키 값으로 영화정보 내려주기
     return jsonify({'result':'success', 'articles':result})
 
@@ -75,7 +75,11 @@ def url_crawling():
     company_name = soup.select_one('#main-content > section.core-rail > div > section.top-card-layout > div > div.top-card-layout__entity-info-container > div > h4 > div:nth-child(1) > span:nth-child(1) > a').text  
     company_location = soup.select_one('#main-content > section.core-rail > div > section.top-card-layout > div > div.top-card-layout__entity-info-container > div > h4 > div:nth-child(1) > span.topcard__flavor.topcard__flavor--bullet').text
     job_info = soup.select_one('#main-content > section.core-rail > div > div.decorated-job-posting__details > section.core-section-container.description > div > div > section > div').text
-		
+	
+    # remove whitespace
+    company_name = company_name.strip()
+    company_location = company_location.strip()
+
     # mongoDB에 넣는 부분
     # article = {'url': url_receive, 'comment': comment_receive, 'image': url_image,
     #            'title': url_title, 'desc': url_description}
