@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
     <link rel="stylesheet" href="static/css/style.css">
 
-    
+
     <script src="static/js/main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
@@ -47,7 +47,7 @@
             background-color: lightgrey;
         }
 
-        
+
 
         #calendar {
             max-width: 700px
@@ -60,6 +60,37 @@
     <script src='static/fullcalendar/packages/daygrid/main.js'></script>
 
     <script>
+        function get_edit(id) {
+            $.ajax({
+                type: "GET",
+                url: "/edit",
+                data: {'id':id},
+                success: function (response) {
+                    url = response['url']
+                    job_position = response['job_position']
+                    job_description = response['job_description']
+                    company_name = response['company_name']
+                    company_location = response['company_location']
+                    date = response['date']
+                    memo = response['memo']
+                    status = response['status']
+
+                    console.log(url)
+                    console.log(company_name)
+
+                    $('#edit-url').val(url)
+                    $("#edit-job-position").val(job_position)
+                    $("#edit-job-description").val(job_description)
+                    $("#edit-company-name").val(company_name)
+                    $("#edit-company-location").val(company_location)
+                    $("#edit-date").val(date)
+                    $('#edit-memo').val(memo)
+                    $('#edit-status').val(status)
+                    
+                }
+            })
+        }
+
         function get_list(arr) {
             $.ajax({
                 type: "GET",
@@ -89,8 +120,9 @@
                 editable: true,
                 eventLimit: true, // allow "more" link when too many events
                 eventClick: function (info) {
-                    console.log(info.event.id)
-                    console.log(info.event.dateStr)
+                    $('#editModal').modal('show');
+                    get_edit(info.event.id)
+                    $('#hidden_id').val(info.event.id)
                 },
                 events: all_applications
             });
@@ -225,12 +257,48 @@
                 }
             })
         }
+
+        function edit(arg_id) {
+            url = $('#edit-url').val()
+            job_position = $("#edit-job-position").val()
+            job_description = $("#edit-job-description").val()
+            company_name = $("#edit-company-name").val()
+            company_location = $("#edit-company-location").val()
+            date = $("#edit-date").val()
+            memo = $('#edit-memo').val()
+            status = $('#edit-status').val()
+            id = arg_id
+            console.log('inside save function: ' + id)
+            $.ajax({
+                type: "POST",
+                url: "/edit",
+                data: {
+                    'id_str': id,
+                    'url': url,
+                    'job_position': job_position,
+                    'job_description': job_description,
+                    'company_name': company_name,
+                    'company_location': company_location,
+                    'date': date,
+                    'memo': memo,
+                    'status': status
+                },
+                success: function (response) {
+                    alert(response['success_msg'])
+                    window.location.reload();
+                }
+            })
+        }
     </script>
 
 </head>
 
 
 <body>
+    <!-- id field: hidden -->
+    <div style="visibility: hidden">
+        <span id="hidden_id" style="visibility: hidden;"></span>
+    </div>
 
     <!-- navbar -->
     <div>
@@ -352,6 +420,76 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" onclick="save()">Save</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- edit modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">JOB INFO</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <form>
+                        <div class="url-box">
+                            <h2>URL 받아서 정보 긁어오기</h2>
+                            <input id="edit-url" type="text" /> <button type="button" class="btn btn-primary"
+                                onclick="request_url()">클릭</button>
+                        </div>
+                        <div class="status">
+                            <label for="status">Board:</label>
+                            <select id="edit-status" name="status">
+                                <option value="wishlist">Wish list</option>
+                                <option value="applied">Applied</option>
+                                <option value="interview">Interview</option>
+                                <option value="rejected">Rejected</option>
+                            </select>
+                        </div>
+                        <div class="job_position_name">
+                            <label for="job-position-name" class="col-form-label">Job Position Name</label>
+                            <input type="text" id="edit-job-position" class="form-control" />
+                        </div>
+
+                        <div class="company-name">
+                            <label for="company-name" class="col-form-label">company name:</label>
+                            <input type="text" class="form-control" id="edit-company-name"></input>
+                        </div>
+                        <div class="company-location">
+                            <label for="company-location" class="col-form-label">company location:</label>
+                            <input type="text" class="form-control" id="edit-company-location"></input>
+                        </div>
+                        <div class="Apply-date">
+                            <label for="Apply-date" class="col-form-label">Apply date:</label>
+                            <input type="date" class="form-control" id="edit-date"></input>
+                        </div>
+                        <div class="job-description">
+                            <label for="job-description" class="col-form-label">Job Description:</label>
+                            <textarea class="form-control" id="edit-job-description" rows="14"></textarea>
+                        </div>
+                        <div class="User-memo">
+                            <label for="User-memo" class="col-form-label">Memo:</label>
+                            <textarea class="form-control" id="edit-memo" rows="14"></textarea>
+                        </div>
+                        <div class="upload-resume">
+                            >Upload Resume:
+                            <form action="/action_page.php">
+                                <input type="file" id="myFile" name="filename">
+                                <input type="submit">
+                            </form>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="edit($('#hidden_id').val())">Edit</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>

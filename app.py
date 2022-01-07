@@ -115,6 +115,58 @@ def save():
 
     return jsonify({'success_msg': "Successfully Saved!"})
 
+@app.route('/edit', methods=["GET"])
+def get_edit():
+    id = request.args.get('id')
+    data = db.application.find_one({'id':id})
+
+    url = data['url']
+    job_position = data['job_position']
+    job_description = data['job_description']
+    company_name = data['company_name']
+    company_location = data['company_location']
+    date = data['date']
+    memo = data['memo']
+    status = data['status']
+    
+    return jsonify({'url': url, 'job_position':job_position,
+    'job_description':job_description, 'company_name':company_name, 'company_location':company_location,
+    'date':date, 'memo':memo, 'status':status})
+
+@app.route('/edit', methods=["POST"])
+def edit():
+    id = request.form['id_str']
+    url = request.form['url']
+    job_position = request.form['job_position']
+    job_description = request.form['job_description']
+    company_name = request.form['company_name']
+    company_location = request.form['company_location']
+    date = request.form['date']
+    memo = request.form['memo']
+    status = request.form['status']
+    
+    print(job_position)
+    print(url)
+    print(company_name)
+    print(date)
+
+    new_info = {
+        'id':id,
+        'url': url,
+        'job_position': job_position,
+        'job_description': job_description,
+        'company_name': company_name,
+        'company_location': company_location,
+        'date': date,
+        'memo': memo,
+        'status': status
+        }
+
+    filter = {'id':id}
+    print(filter)
+    db.application.update_one(filter, {"$set": new_info})
+    return jsonify({'success_msg' : 'Successfully edited'})
+
 @app.route('/getapplicationinfo', methods=["POST"])
 def getone():
     id_str = request.form['id']
