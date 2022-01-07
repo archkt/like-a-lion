@@ -36,42 +36,56 @@
     <script>
         $(document).ready(function () {
             $('#cards-box').html('');
-            listing();
+            // listing();
         });
 
         function listing() {
+            $('#cards-box').html('');
             $.ajax({
                 type: "GET",
                 url: "/list",
                 data: {},
-                success: function(response){
-                let application = response['application'];
-                for (let i = 0; i < application.length; i++) {
-                    if (application[i]['status'] == 'wishlist'){
-                        make_card(application[i]['company_name'], application[i]['job_position'],application[i]['date']);}
-                    if (application[i]['status'] == 'applied'){
-                        make_card(application[i]['company_name'], application[i]['job_position'],application[i]['date']);}
-                    if (application[i]['status'] == 'interview'){
-                        make_card(application[i]['company_name'], application[i]['job_position'],application[i]['date']);}
-                    if (application[i]['status'] == 'rejected'){
-                        make_card(application[i]['company_name'], application[i]['job_position'],application[i]['date']);}
-                }
+                success: function (response) {
+                    let application = response['application'];
+
+                    for (let i = 0; i < application.length; i++) {
+                        if (application[i]['status'] == 'wishlist') {
+                            make_card(application[i]['company_name'], application[i]['job_position'], application[i]['date']);
+                        }
+                        if (application[i]['status'] == 'applied') {
+                            make_card(application[i]['company_name'], application[i]['job_position'], application[i]['date']);
+                        }
+                        if (application[i]['status'] == 'interview') {
+                            make_card(application[i]['company_name'], application[i]['job_position'], application[i]['date']);
+                        }
+                        if (application[i]['status'] == 'rejected') {
+                            make_card(application[i]['company_name'], application[i]['job_position'], application[i]['date']);
+                        }
+                    }
                 }
             })
-            }
+        }
 
         function make_card(company_name, job_position, date) {
-            let temp_html = 
-                            `<div class="card">
-                                <div class="card-header"> ${company_name} </div>
-                                <div class="card-body">
-                                    <h5 class="card-title">${job_position}</h5>
-                                    <p class="card-text">${date}</p>
-                                    </div>
-                                    </div>`;
+            let temp_html =
+                `    <div class="row container">
+        <div class="card appcard column_job">
+            <div class="card-header">
+                ${company_name}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">${job_position}</h5>
+                <p class="card-text">${date}</p>
+            </div>
+
+        </div>
+        <div class="column_stat">
+            <button class="btn btn-primary stat_button" type="submit" style = "border-radius: 100%;">Offer</button>
+        </div>
+    </div>`;
             $('#cards-box').append(temp_html);
         }
-    </script>    
+    </script>
 
     <!-- Style -->
     <style>
@@ -82,7 +96,7 @@
             overflow: hidden;
             overflow-x: hidden;
             overflow-y: scroll;
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         }
 
         ul {
@@ -93,7 +107,7 @@
             margin: 0;
             position: relative;
             top: 20%;
-            left: 90%;
+            left: 80%;
             -ms-transform: translate(-50%, -50%);
             transform: translate(-55%, 40%);
         }
@@ -112,10 +126,45 @@
             position: relative;
             /* fixed => relative 로 바꾸면 scroll down 가능 */
             top: 280px;
-            left: 28%;
+            left: 20%;
+            width: 1000px;
             transform: translate(-27%, -20%);
 
+        }
 
+        .stat_button {
+            margin: 0 auto;
+            position: relative;
+            top: 280px;
+            left: 20%;
+            width: 100px;
+            transform: translate(-120%, -20%);
+
+        }
+
+        .bts {
+            height: 70px;
+            width: 200px;
+        }
+
+
+
+        .column_job {
+            float: left;
+            width: 70%;
+            padding: 10px;
+        }
+
+        .column_stat {
+            float: right;
+            width: 10px;
+            padding: 10px;
+
+        }
+
+        .row {
+            content: "";
+            clear: both;
 
         }
     </style>
@@ -174,46 +223,42 @@
         </div>
     </div>
 
-        <!-- Scroll Down-->
+    <!-- Buttons_WL, Ap, In, Re-->
+    <div>
 
-        <!-- Buttons_WL, Ap, In, Re-->
-        <div>
-            <div class="center">
-                <button type="button" class="btn btn-light">Wish List</button>
-                <button type="button" class="btn btn-light">Applied</button>
-                <button type="button" class="btn btn-light">Interview</button>
-                <button type="button" class="btn btn-light">Rejected</button>
-            </div>
-
-            <!-- Button _ Create New  -->
-            <div class="createnew">
-                <button type="button" class="btn btn-light"> +Create New </button>
-            </div>
+        <div class="center">
+            <button type="button" class="btn btn-light btn-lg bts">Wish List</button>
+            <button type="button" class="btn btn-light btn-lg bts">Applied</button>
+            <button type="button" class="btn btn-light btn-lg bts">Interview</button>
+            <button type="button" class="btn btn-light btn-sm">Rejected</button>
         </div>
 
-
-        <!-- Card _ Application List -->
-        <div class="card-columns appcard", id = "cards-box">
-            <div class="card">
-                <div class="card-header">
-                    Karbone
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Position : Sustainability Sales Origination</h5>
-                    <p class="card-text">Interview Date : 2022-01-14</p>
-                </div>
-            </div>
+        <!-- Button _ Create New  -->
+        <div class="createnew">
+            <button type="button" class="btn btn-light"> +Create New </button>
         </div>
+    </div>
 
 
-        <!-- js / bootstrap component -->
+    <!-- Card _ Application List -->
+    <div id = "cards-box">
+       
+    </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-            crossorigin="anonymous"></script>
-        <script src="static/js/main.js"></script>
+
+
+
+
+
+    <!-- js / bootstrap component -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <script src="static/js/main.js"></script>
     </div>
 
 </body>
 
+ 810579dd81e6450995e35b65f7754ab497dbc08b
 </html>

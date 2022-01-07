@@ -55,6 +55,7 @@ def logout():
 
 @app.route('/list', methods=['GET'])
 def listing():
+    
     # 모든 document 찾기 & _id 값은 출력에서 제외하기
     result = list(db.application.find({},{'_id':0}))
     # articles라는 키 값으로 영화정보 내려주기
