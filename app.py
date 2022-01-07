@@ -32,7 +32,7 @@ def mainpage():
 def cal():
     all_db = list(db.likelion.find({},{'_id':0}))
     
-    return render_template('calendar.html', all_data = all_db)
+    return render_template('calendar.html')
 
 @app.route('/login', methods=["POST", "GET"])
 def login():
@@ -89,6 +89,7 @@ def board():
 
 @app.route('/save', methods=['POST'])
 def save():
+    id = request.form['id_str']
     url = request.form['url']
     job_position = request.form['job_position']
     job_description = request.form['job_description']
@@ -98,9 +99,8 @@ def save():
     memo = request.form['memo']
     status = request.form['status']
 
-    print(status)
-
     info = {
+        'id':id,
         'url': url,
         'job_position': job_position,
         'job_description': job_description,
@@ -114,6 +114,14 @@ def save():
 
     return jsonify({'success_msg': "Successfully Saved!"})
 
+@app.route('/getapplicationinfo', methods=["POST"])
+def getone():
+    id_str = request.form['id']
+    info = db.application.find_one({'id' : id_str})
+    print(id_str)
+    print(info)
+    print('hihi')
+    return jsonify({'company_name': info['company_name'], 'job_position': info['job_position'], 'date':info['date']})
 
 
 if __name__ == '__main__':

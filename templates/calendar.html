@@ -72,7 +72,86 @@
     </style>
 
     <!-- JS -->
+    <script src='static/fullcalendar/packages/core/main.js'></script>
+    <script src='static/fullcalendar/packages/interaction/main.js'></script>
+    <script src='static/fullcalendar/packages/daygrid/main.js'></script>
+
     <script>
+        var all_applications = [];
+        window.onload = function () {
+            $.ajax({
+                type: "GET",
+                url: "/list",
+                data: {},
+                async: !1,
+                success: function (response) {
+                    let app = response['application'];
+                    for (let i = 0; i < app.length; i++) {
+                        job_position = app[i]['job_position']
+                        date = app[i]['date']
+                        id = app[i]['_id']
+                        console.log(id)
+                        all_applications.push({ 'title': job_position, 'start': date, 'id': id })
+                    }
+                }
+            });
+            console.log(all_applications)
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                plugins: ['interaction', 'dayGrid'],
+                defaultDate: today(),
+                editable: true,
+                eventLimit: true, // allow "more" link when too many events
+                eventClick: function (info) {
+                    const check_id = obj => obj.id === info.event.id;
+                    console.log(all_applications.some(check_id))
+                },
+                events: all_applications
+            });
+
+            calendar.render();
+
+            // if click calendar day grid
+            calendar.on('dateClick', function (info) {
+                $('#exampleModal').modal('show');
+                $('#Apply-date').val(info.dateStr);
+            });
+
+            //console.log(calendar.getEventById('2022-02-01-1'))
+        });
+
+
+        function generate_id(date) {
+            //console.log(date)
+            var str = ''
+            $.ajax({
+                type: "GET",
+                url: "/list",
+                data: {},
+                async: !1,
+                success: function (response) {
+                    let arr = response['application'];
+                    console.log(arr)
+                    count = 0;
+                    for (i = 0; i < arr.length; i++) {
+                        if (arr[i]['date'] == date) {
+                            count += 1
+                        }
+                    }
+                    console.log('inside generate_id: ' + count)
+                    str = date + "-" + count;
+                },
+                error: function () {
+                    console.log('no data available');
+                }
+            })
+            return str;
+        }
+
         function close() {
             console.log('close clicked');
             //$("#exampleModal").modal("hide");
@@ -141,11 +220,13 @@
             date = $("#Apply-date").val()
             memo = $('#User-memo').val()
             status = $('#status').val()
-
+            id = generate_id(date)
+            console.log('inside save function: ' + id)
             $.ajax({
                 type: "POST",
                 url: "/save",
                 data: {
+                    'id_str': id,
                     'url': url,
                     'job_position': job_position,
                     'job_description': job_description,
@@ -158,20 +239,6 @@
                 success: function (response) {
                     alert(response['success_msg'])
                     window.location.reload();
-                }
-            })
-        }
-
-        function get_list() {
-            $.ajax({
-                type: "GET",
-                url: "/list",
-                data: {},
-                success: function (response) {
-                    return response
-                },
-                error: function () {
-                    alert('Error occured');
                 }
             })
         }
@@ -314,87 +381,7 @@
         crossorigin="anonymous"></script>
 
     <!-- render calendar -->
-    <script src='static/fullcalendar/packages/core/main.js'></script>
-    <script src='static/fullcalendar/packages/interaction/main.js'></script>
-    <script src='static/fullcalendar/packages/daygrid/main.js'></script>
 
-    <script>
-        var data = '{{all_data}}'
-        document.addEventListener('DOMContentLoaded', function () {
-            var calendarEl = document.getElementById('calendar');
-            var data = '{{ all_data }}';
-            console.log(get_list())
-
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                plugins: ['interaction', 'dayGrid'],
-                defaultDate: today(),
-                editable: true,
-                eventLimit: true, // allow "more" link when too many events
-                eventClick: function (info) {
-                    console.log(info.event.id)
-                    //alert('Event: ' + info.event.title);
-                    //alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-                    //alert('View: ' + info.view.type);
-                },
-                events: [{
-                    id: '2022-02-01-1',
-                    title: 'Aa',
-                    start: '2022-02-01'
-                }, {
-                    title: 'Long Event',
-                    start: '2022-02-07',
-                    end: '2022-02-10'
-                }, {
-                    groupId: 999,
-                    title: 'Repeating Event',
-                    start: '2022-02-09T16:00:00'
-                }, {
-                    groupId: 999,
-                    title: 'Repeating Event',
-                    start: '2022-02-16T16:00:00'
-                }, {
-                    title: 'Conference',
-                    start: '2022-02-11',
-                    end: '2022-02-13'
-                }, {
-                    title: 'Meeting',
-                    start: '2022-02-12T10:30:00',
-                    end: '2022-02-12T12:30:00'
-                }, {
-                    title: 'Lunch',
-                    start: '2022-02-12T12:00:00'
-                }, {
-                    title: 'Meeting',
-                    start: '2022-02-12T14:30:00'
-                }, {
-                    title: 'Happy Hour',
-                    start: '2022-02-12T17:30:00'
-                }, {
-                    title: 'Dinner',
-                    start: '2022-02-12T20:00:00'
-                }, {
-                    title: 'Birthday Party',
-                    start: '2022-02-13T07:00:00'
-                }, {
-                    title: 'Click for Google',
-                    url: 'http://google.com/',
-                    start: '2022-02-28'
-                }]
-            });
-
-            calendar.render();
-
-            // if click calendar day grid
-            calendar.on('dateClick', function (info) {
-                $('#exampleModal').modal('show');
-                $('#Apply-date').val(info.dateStr);
-            });
-            
-            console.log(calendar.getEventById('2022-02-01-1'))
-        });
-
-
-    </script>
 
 </body>
 
