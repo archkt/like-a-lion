@@ -17,11 +17,22 @@
     <link href='static/css/offcanvas-content.css' rel='stylesheet' />
     <link href='static/css/navbar.css' rel='stylesheet' />
 
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS / JS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
     <link rel="stylesheet" href="static/css/style.css">
+
+    <script src="static/js/jquery-3.3.1.min.js"></script>
+    <script src="static/js/popper.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <script src="static/js/main.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     <title>Welcome</title>
 
     <!-- Style -->
@@ -70,7 +81,10 @@
             modal.find(".modal-body input").val(recipient);
         });
 
+
         function remove_input_value() {
+            $("#job-description").val('');
+            $("#User-memo").val('');
             document
                 .querySelectorAll("input")
                 .forEach((input) => {
@@ -98,13 +112,15 @@
                 }
             });
         }
+
         function save() {
             url = $('#input-url').val()
             job_position = $("#job-position-name").val()
             job_description = $("#job-description").val()
             company_name = $("#company-name").val()
             company_location = $("#company-location").val()
-            date = $("#Apply-date").val()
+            date = $("#Apply-date").val(),
+                memo = $('#User-memo').val()
 
             $.ajax({
                 type: "POST",
@@ -115,14 +131,32 @@
                     'job_description': job_description,
                     'company_name': company_name,
                     'company_location': company_location,
-                    'date': date
+                    'date': date,
+                    'memo': memo,
+                    'unique_id': 'asdf'
                 },
-                success: function(response) {
+                success: function (response) {
                     alert(response['success_msg'])
+                    window.location.reload();
+                }
+            })
+        }
+
+        function get_list() {
+            $.ajax({
+                type: "GET",
+                url: "/list",
+                data: {},
+                success: function (response) {
+                    return response
+                },
+                error: function () {
+                    alert('Error occured');
                 }
             })
         }
     </script>
+
 </head>
 
 
@@ -185,13 +219,17 @@
     </div>
 
     <!-- create modal window -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">JOB INFO</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
+
                 <div class="modal-body">
                     <form>
                         <div class="url-box">
@@ -219,11 +257,11 @@
                         </div>
                         <div class="job-description">
                             <label for="job-description" class="col-form-label">Job Description:</label>
-                            <input type="textarea" class="form-control" id="job-description"></input>
+                            <textarea class="form-control" id="job-description" rows="14"></textarea>
                         </div>
                         <div class="User-memo">
                             <label for="User-memo" class="col-form-label">Memo:</label>
-                            <input type="textarea" class="form-control" id="User-memo"></input>
+                            <textarea class="form-control" id="User-memo" rows="14"></textarea>
                         </div>
                         <div class="upload-resume">
                             >Upload Resume:
@@ -245,27 +283,31 @@
     </div>
 
     <!-- render calendar -->
-
-    <script src="static/js/jquery-3.3.1.min.js"></script>
-    <script src="static/js/popper.min.js"></script>
-    <script src="static/js/bootstrap.min.js"></script>
-
     <script src='static/fullcalendar/packages/core/main.js'></script>
     <script src='static/fullcalendar/packages/interaction/main.js'></script>
     <script src='static/fullcalendar/packages/daygrid/main.js'></script>
 
     <script>
+        var data = '{{all_data}}'
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
             var data = '{{ all_data }}';
+            console.log(get_list())
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 plugins: ['interaction', 'dayGrid'],
                 defaultDate: today(),
                 editable: true,
                 eventLimit: true, // allow "more" link when too many events
+                eventClick: function (info) {
+                    console.log(info.event.id)
+                    //alert('Event: ' + info.event.title);
+                    //alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
+                    //alert('View: ' + info.view.type);
+                },
                 events: [{
-                    title: 'All Day Event',
+                    id: '2022-02-01-1',
+                    title: 'Aa',
                     start: '2022-02-01'
                 }, {
                     title: 'Long Event',
@@ -316,22 +358,12 @@
                 $('#exampleModal').modal('show');
                 $('#Apply-date').val(info.dateStr);
             });
-
+            console.log(calendar.getEventById('2022-02-01-1'))
         });
 
-        $('.fc-day-grid-event').click(function () {
-            // TODO: 1) ajax request: pass the data to DB to find the specific one
-            // 2) create separate list tab to show the clicked one
-        })
+
     </script>
 
-
-    <!-- js / bootstrap component -->
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-        crossorigin="anonymous"></script>
-    <script src="static/js/main.js"></script>
 </body>
 
 </html>
