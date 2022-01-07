@@ -39,7 +39,7 @@
             // listing();
         });
 
-        function listing() {
+        function listing(status) {
             $('#cards-box').html('');
             $.ajax({
                 type: "GET",
@@ -49,13 +49,14 @@
                 let application = response['application'];
                 
                 for (let i = 0; i < application.length; i++) {
-                    if (application[i]['status'] == 'wishlist'){
+                    // alert(application[i]['status'])
+                    if (application[i]['status'] == 'wishlist' && status == 'wishlist'){
                         make_card(application[i]['company_name'], application[i]['job_position'],application[i]['date']);}
-                    if (application[i]['status'] == 'applied'){
+                    if (application[i]['status'] == 'applied' && status == 'applied'){
                         make_card(application[i]['company_name'], application[i]['job_position'],application[i]['date']);}
-                    if (application[i]['status'] == 'interview'){
+                    if (application[i]['status'] == 'interview' && status == 'interview'){
                         make_card(application[i]['company_name'], application[i]['job_position'],application[i]['date']);}
-                    if (application[i]['status'] == 'rejected'){
+                    if (application[i]['status'] == 'rejected' && status == 'rejected'){
                         make_card(application[i]['company_name'], application[i]['job_position'],application[i]['date']);}
                 }
                 }
@@ -70,7 +71,10 @@
                                     <h5 class="card-title">${job_position}</h5>
                                     <p class="card-text">${date}</p>
                                     </div>
-                                    </div>`;
+                                    </div>
+                                
+                                    `;
+                            
             $('#cards-box').append(temp_html);
         }
     </script>    
@@ -181,15 +185,15 @@
         <!-- Buttons_WL, Ap, In, Re-->
         <div>
             <div class="center">
-                <button type="button" class="btn btn-light" onclick = "listing()" >Wish List</button>
-                <button type="button" class="btn btn-light" onclick = "listing()">Applied</button>
-                <button type="button" class="btn btn-light" onclick = "listing()">Interview</button>
-                <button type="button" class="btn btn-light" onclick = "listing()">Rejected</button>
+                <button type="button" class="btn btn-light" onclick = "listing('wishlist')" >Wish List</button>
+                <button type="button" class="btn btn-light" onclick = "listing('applied')">Applied</button>
+                <button type="button" class="btn btn-light" onclick = "listing('interview')">Interview</button>
+                <button type="button" class="btn btn-light" onclick = "listing('rejected')">Rejected</button>
             </div>
 
             <!-- Button _ Create New  -->
             <div class="createnew">
-                <button type="button" class="btn btn-light"> +Create New </button>
+                <button type="button" class="btn btn-light" > +Create New </button>
             </div>
         </div>
 
