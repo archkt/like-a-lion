@@ -31,6 +31,7 @@ def mainpage():
 @app.route('/calendar')
 def cal():
     all_db = list(db.likelion.find({},{'_id':0}))
+    
     return render_template('calendar.html', all_data = all_db)
 
 @app.route('/login', methods=["POST", "GET"])
@@ -52,12 +53,13 @@ def logout():
     return redirect(url_for('index'))
     
 
-@app.route('/memo', methods=['GET'])
+@app.route('/list', methods=['GET'])
 def listing():
+    
     # 모든 document 찾기 & _id 값은 출력에서 제외하기
-    result = list(db.likelion.find({},{'_id':0}))
+    result = list(db.application.find({},{'_id':0}))
     # articles라는 키 값으로 영화정보 내려주기
-    return jsonify({'result':'success', 'articles':result})
+    return jsonify({'result':'success', 'application':result})
 
 
 ## URL Crawling
@@ -95,7 +97,8 @@ def save():
     company_location = request.form['company_location']
     date = request.form['date']
     memo = request.form['memo']
-    
+    status = request.form['status']
+
     info = {
         'url': url,
         'job_position': job_position,
@@ -103,11 +106,14 @@ def save():
         'company_name': company_name,
         'company_location': company_location,
         'date': date,
-        'memo': memo
+        'memo': memo,
+        'status': status
         }
     db.application.insert_one(info)
 
     return jsonify({'success_msg': "Successfully Saved!"})
+
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
