@@ -36,7 +36,7 @@
     <script>
         $(document).ready(function () {
             $('#cards-box').html('');
-            // listing();
+            listing();
         });
 
         function listing(status) {
@@ -51,15 +51,15 @@
                 for (let i = 0; i < application.length; i++) {
                     // alert(application[i]['status'])
                     if (application[i]['status'] == 'wishlist' && status == 'wishlist'){
-                        make_card(application[i]['company_name'], application[i]['job_position'],application[i]['date'],application[i]['status'],application[i]['_id']);
+                        make_card(application[i]['company_name'], application[i]['job_position'],application[i]['date'],application[i]['status'],application[i]['id']);
                         alert(application[i]['_id']);}  // '_id'  undefined 라고 뜸
                     if (application[i]['status'] == 'applied' && status == 'applied'){
-                        make_card(application[i]['company_name'], application[i]['job_position'],application[i]['date'],application[i]['status'],application[i]['_id']);}
+                        make_card(application[i]['company_name'], application[i]['job_position'],application[i]['date'],application[i]['status'],application[i]['id']);}
                     if (application[i]['status'] == 'interview' && status == 'interview'){
-                        make_card(application[i]['company_name'], application[i]['job_position'],application[i]['date'],application[i]['status'],application[i]['_id']);}
+                        make_card(application[i]['company_name'], application[i]['job_position'],application[i]['date'],application[i]['status'],application[i]['id']);}
                     if (application[i]['status'] == 'rejected' && status == 'rejected'){
                         alert(application[i]['_id']);
-                        make_card(application[i]['company_name'], application[i]['job_position'],application[i]['date'],application[i]['status'],application[i]['_id']);}
+                        make_card(application[i]['company_name'], application[i]['job_position'],application[i]['date'],application[i]['status'],application[i]['id']);}
                 }
                 }
             })

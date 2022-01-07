@@ -32,7 +32,7 @@ def mainpage():
 def cal():
     all_db = list(db.likelion.find({},{'_id':0}))
     
-    return render_template('calendar.html', all_data = all_db)
+    return render_template('calendar.html')
 
 @app.route('/login', methods=["POST", "GET"])
 def login():
@@ -90,6 +90,7 @@ def board():
 
 @app.route('/save', methods=['POST'])
 def save():
+    id = request.form['id_str']
     url = request.form['url']
     job_position = request.form['job_position']
     job_description = request.form['job_description']
@@ -100,6 +101,7 @@ def save():
     status = request.form['status']
 
     info = {
+        'id':id,
         'url': url,
         'job_position': job_position,
         'job_description': job_description,
@@ -118,9 +120,70 @@ def delete_id():
     # 1. 클라이언트가 전달한 name_give를 name_receive 변수에 넣습니다.
     id_receive = request.form['id']
     # 2. mystar 목록에서 delete_one으로 name이 name_receive와 일치하는 star를 제거합니다.
-    db.application.delete_one({'_id':id_receive})
+    db.application.delete_one({'id':id_receive})
     # 3. 성공하면 success 메시지를 반환합니다.
     return jsonify({'result': 'success'})
+
+@app.route('/edit', methods=["GET"])
+def get_edit():
+    id = request.args.get('id')
+    data = db.application.find_one({'id':id})
+
+    url = data['url']
+    job_position = data['job_position']
+    job_description = data['job_description']
+    company_name = data['company_name']
+    company_location = data['company_location']
+    date = data['date']
+    memo = data['memo']
+    status = data['status']
+    
+    return jsonify({'url': url, 'job_position':job_position,
+    'job_description':job_description, 'company_name':company_name, 'company_location':company_location,
+    'date':date, 'memo':memo, 'status':status})
+
+@app.route('/edit', methods=["POST"])
+def edit():
+    id = request.form['id_str']
+    url = request.form['url']
+    job_position = request.form['job_position']
+    job_description = request.form['job_description']
+    company_name = request.form['company_name']
+    company_location = request.form['company_location']
+    date = request.form['date']
+    memo = request.form['memo']
+    status = request.form['status']
+    
+    print(job_position)
+    print(url)
+    print(company_name)
+    print(date)
+
+    new_info = {
+        'id':id,
+        'url': url,
+        'job_position': job_position,
+        'job_description': job_description,
+        'company_name': company_name,
+        'company_location': company_location,
+        'date': date,
+        'memo': memo,
+        'status': status
+        }
+
+    filter = {'id':id}
+    print(filter)
+    db.application.update_one(filter, {"$set": new_info})
+    return jsonify({'success_msg' : 'Successfully edited'})
+
+@app.route('/getapplicationinfo', methods=["POST"])
+def getone():
+    id_str = request.form['id']
+    info = db.application.find_one({'id' : id_str})
+    print(id_str)
+    print(info)
+    print('hihi')
+    return jsonify({'company_name': info['company_name'], 'job_position': info['job_position'], 'date':info['date']})
 
 
 if __name__ == '__main__':
