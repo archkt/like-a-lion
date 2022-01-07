@@ -36,16 +36,18 @@
     <script>
         $(document).ready(function () {
             $('#cards-box').html('');
-            listing();
+            // listing();
         });
 
         function listing() {
+            $('#cards-box').html('');
             $.ajax({
                 type: "GET",
                 url: "/list",
                 data: {},
                 success: function(response){
                 let application = response['application'];
+                
                 for (let i = 0; i < application.length; i++) {
                     if (application[i]['status'] == 'wishlist'){
                         make_card(application[i]['company_name'], application[i]['job_position'],application[i]['date']);}
@@ -179,10 +181,10 @@
         <!-- Buttons_WL, Ap, In, Re-->
         <div>
             <div class="center">
-                <button type="button" class="btn btn-light">Wish List</button>
-                <button type="button" class="btn btn-light">Applied</button>
-                <button type="button" class="btn btn-light">Interview</button>
-                <button type="button" class="btn btn-light">Rejected</button>
+                <button type="button" class="btn btn-light" onclick = "listing()" >Wish List</button>
+                <button type="button" class="btn btn-light" onclick = "listing()">Applied</button>
+                <button type="button" class="btn btn-light" onclick = "listing()">Interview</button>
+                <button type="button" class="btn btn-light" onclick = "listing()">Rejected</button>
             </div>
 
             <!-- Button _ Create New  -->
@@ -193,15 +195,9 @@
 
 
         <!-- Card _ Application List -->
-        <div class="card-columns appcard", id = "cards-box">
-            <div class="card">
-                <div class="card-header">
-                    Karbone
-                </div>
-                <div class="card-body">
-                    <h5 class="card-title">Position : Sustainability Sales Origination</h5>
-                    <p class="card-text">Interview Date : 2022-01-14</p>
-                </div>
+        <div id = "cards-box">
+            <div class="card" class=" appcard">
+        
             </div>
         </div>
 
