@@ -47,19 +47,22 @@
                 data: {},
                 success: function (response) {
                     let application = response['application'];
-
                     for (let i = 0; i < application.length; i++) {
                         var id = application[i]['id']
-                        if (application[i]['status'] == 'wishlist' && status == 'wishlist') {
+
+                        if(typeof status =="undefined" ){
                             make_card(application[i]['company_name'], application[i]['job_position'], application[i]['date'], application[i]['status'], id);
                         }
-                        if (application[i]['status'] == 'applied' && status == 'applied') {
+                        else if (application[i]['status'] == 'wishlist' && status == 'wishlist') {
                             make_card(application[i]['company_name'], application[i]['job_position'], application[i]['date'], application[i]['status'], id);
                         }
-                        if (application[i]['status'] == 'interview' && status == 'interview') {
+                        else if (application[i]['status'] == 'applied' && status == 'applied') {
                             make_card(application[i]['company_name'], application[i]['job_position'], application[i]['date'], application[i]['status'], id);
                         }
-                        if (application[i]['status'] == 'rejected' && status == 'rejected') {
+                        else if (application[i]['status'] == 'interview' && status == 'interview') {
+                            make_card(application[i]['company_name'], application[i]['job_position'], application[i]['date'], application[i]['status'], id);
+                        }
+                        else if (application[i]['status'] == 'rejected' && status == 'rejected') {
                             make_card(application[i]['company_name'], application[i]['job_position'], application[i]['date'], application[i]['status'], id);
                         }
                     }
@@ -74,7 +77,6 @@
                 data: { 'id': id },
                 success: function (response) {
                     if (response['result'] == 'success') {
-
                         alert('삭제 완료! 안녕!')
                         window.location.reload()
                     }
