@@ -150,16 +150,13 @@
                 async: !1,
                 success: function (response) {
                     let arr = response['application'];
-                    console.log(arr)
                     count = 0;
                     for (i = 0; i < arr.length; i++) {
                         if (arr[i]['date'] == date) {
                             count += 1
                         }
                     }
-                    console.log('inside generate_id: ' + count)
                     str_date = String(date).split("-").join('')
-                    
                     str = String(str_date) + String(count);
                 },
                 error: function () {
@@ -167,11 +164,6 @@
                 }
             })
             return str;
-        }
-
-        function close() {
-            console.log('close clicked');
-            //$("#exampleModal").modal("hide");
         }
 
         // get today's date

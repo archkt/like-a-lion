@@ -68,7 +68,6 @@
         }
 
         function delete_id(id) {
-            console.log('inside delete_id() id= ' + id)
             $.ajax({
                 type: "POST",
                 url: "/api/delete",
@@ -77,7 +76,6 @@
                     if (response['result'] == 'success') {
 
                         alert('삭제 완료! 안녕!')
-                        // 3. 변경된 정보를 반영하기 위해 새로고침합니다.
                         window.location.reload()
                     }
                 }
@@ -86,7 +84,6 @@
 
 
         function make_card(company_name, job_position, date, status, id) {
-            console.log('inside make_card() id= ' + id)
             let temp_html =
                 `    <div class="row container">
                         <div class="card appcard column_job">

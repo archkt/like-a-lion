@@ -62,6 +62,9 @@
       }
     }
 
+
+
+  
     // $("#exampleModal").on("show.bs.modal", function (event) {
     //   var button = $(event.relatedTarget); // Button that triggered the modal
     //   var recipient = button.data("whatever"); // Extract info from data-* attributes
@@ -146,7 +149,6 @@
       memo = $('#User-memo').val()
       status = $('#status').val()
       id = generate_id(date)
-      console.log('inside save function: ' + id)
       $.ajax({
         type: "POST",
         url: "/save",
@@ -167,7 +169,6 @@
         }
       })
     }
-
   </script>
 
   <!-- style -->
@@ -177,7 +178,7 @@
     }
 
     .nav>li>a:hover {
-      background-color: lightgrey;
+      background-color: whitesmoke;
     }
 
     * {
@@ -193,7 +194,7 @@
     }
 
     .comment {
-      color: blue;
+      color: whitesmoke;
       font-weight: bold;
     }
 
@@ -306,14 +307,14 @@
               <input id="input-url" type="text" /> <button type="button" class="btn btn-primary"
                 onclick="request_url()">클릭</button>
             </div>
-            <div class="status">
+            <div class = "status">
               <label for="status">Board:</label>
-              <select id="status" name="status">
-                <option value="wishlist">Wish list</option>
-                <option value="applied">Applied</option>
-                <option value="interview">Interview</option>
-                <option value="rejected">Rejected</option>
-              </select>
+                <select id="status" name="status">
+                  <option value="wishlist">Wish list</option>
+                  <option value="applied">Applied</option>
+                  <option value="interview">Interview</option>
+                  <option value="rejected">Rejected</option>
+                </select>
             </div>
             <div class="job_position_name">
               <label for="job_position_name" class="col-form-label">Job Position Name</label>
