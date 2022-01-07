@@ -64,7 +64,7 @@
             $.ajax({
                 type: "GET",
                 url: "/edit",
-                data: {'id':id},
+                data: { 'id': id },
                 success: function (response) {
                     url = response['url']
                     job_position = response['job_position']
@@ -86,7 +86,7 @@
                     $("#edit-date").val(date)
                     $('#edit-memo').val(memo)
                     $('#edit-status').val(status)
-                    
+
                 }
             })
         }
@@ -230,26 +230,31 @@
             memo = $('#User-memo').val()
             status = $('#status').val()
             id = generate_id(date)
-            console.log('inside save function: ' + id)
-            $.ajax({
-                type: "POST",
-                url: "/save",
-                data: {
-                    'id_str': id,
-                    'url': url,
-                    'job_position': job_position,
-                    'job_description': job_description,
-                    'company_name': company_name,
-                    'company_location': company_location,
-                    'date': date,
-                    'memo': memo,
-                    'status': status
-                },
-                success: function (response) {
-                    alert(response['success_msg'])
-                    window.location.reload();
-                }
-            })
+
+            if (job_position == '') {
+                alert('job position을 입력해주세요!')
+                $('#job-position-name').focus()
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/save",
+                    data: {
+                        'id_str': id,
+                        'url': url,
+                        'job_position': job_position,
+                        'job_description': job_description,
+                        'company_name': company_name,
+                        'company_location': company_location,
+                        'date': date,
+                        'memo': memo,
+                        'status': status
+                    },
+                    success: function (response) {
+                        alert(response['success_msg'])
+                        window.location.reload();
+                    }
+                })
+            }
         }
 
         function edit(arg_id) {
@@ -262,26 +267,45 @@
             memo = $('#edit-memo').val()
             status = $('#edit-status').val()
             id = arg_id
-            console.log('inside save function: ' + id)
+
+            if (job_position == '') {
+                alert('job position을 입력해주세요!')
+                $('#job-position-name').focus()
+            } else {
+                $.ajax({
+                    type: "POST",
+                    url: "/edit",
+                    data: {
+                        'id_str': id,
+                        'url': url,
+                        'job_position': job_position,
+                        'job_description': job_description,
+                        'company_name': company_name,
+                        'company_location': company_location,
+                        'date': date,
+                        'memo': memo,
+                        'status': status
+                    },
+                    success: function (response) {
+                        alert(response['success_msg'])
+                        window.location.reload();
+                    }
+                })
+            }
+        }
+
+        function delete_id(id) {
             $.ajax({
                 type: "POST",
-                url: "/edit",
-                data: {
-                    'id_str': id,
-                    'url': url,
-                    'job_position': job_position,
-                    'job_description': job_description,
-                    'company_name': company_name,
-                    'company_location': company_location,
-                    'date': date,
-                    'memo': memo,
-                    'status': status
-                },
+                url: "/api/delete",
+                data: { 'id': id },
                 success: function (response) {
-                    alert(response['success_msg'])
-                    window.location.reload();
+                    if (response['result'] == 'success') {
+                        alert('삭제 완료! 안녕!')
+                        window.location.reload()
+                    }
                 }
-            })
+            });
         }
     </script>
 
@@ -484,12 +508,12 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" onclick="edit($('#hidden_id').val())">Edit</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"
+                        onclick="delete_id($('#hidden_id').val())">Delete</button>
                 </div>
             </div>
         </div>
     </div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
