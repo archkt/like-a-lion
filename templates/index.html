@@ -66,34 +66,15 @@
       $("#cards-box").html("");
       listing();
     });
-    $("#exampleModal").on("show.bs.modal", function (event) {
-      var button = $(event.relatedTarget); // Button that triggered the modal
-      var recipient = button.data("whatever"); // Extract info from data-* attributes
-      // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-      // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-      var modal = $(this);
-      modal.find(".modal-title").text("New message to " + recipient);
-      modal.find(".modal-body input").val(recipient);
-    });
-    function listing() {
-      $.ajax({
-        type: "GET",
-        url: "/memo",
-        data: {},
-        success: function (response) {
-          let articles = response["articles"];
-          for (let i = 0; i < articles.length; i++) {
-            make_card(
-              articles[i]["comment"],
-              articles[i]["desc"],
-              articles[i]["image"],
-              articles[i]["title"],
-              articles[i]["url"]
-            );
-          }
-        },
-      });
-    }
+    // $("#exampleModal").on("show.bs.modal", function (event) {
+    //   var button = $(event.relatedTarget); // Button that triggered the modal
+    //   var recipient = button.data("whatever"); // Extract info from data-* attributes
+    //   // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+    //   // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+    //   var modal = $(this);
+    //   modal.find(".modal-title").text("New message to " + recipient);
+    //   modal.find(".modal-body input").val(recipient);
+    // });
 
     function remove_input_value() {
       $("#job-description").val('');
@@ -139,7 +120,8 @@
       company_location = $("#company-location").val()
       date = $("#Apply-date").val()
       memo = $('#User-memo').val()
-
+      status = $('#status').val()
+      
       $.ajax({
         type: "POST",
         url: "/save",
@@ -150,7 +132,8 @@
           'company_name': company_name,
           'company_location': company_location,
           'date': date,
-          'memo': memo
+          'memo': memo,
+          'status': status
         },
         success: function (response) {
           alert(response['success_msg'])
@@ -296,7 +279,15 @@
               <input id="input-url" type="text" /> <button type="button" class="btn btn-primary"
                 onclick="request_url()">클릭</button>
             </div>
-
+            <div class = "status">
+              <label for="status">Board:</label>
+                <select id="status" name="status">
+                  <option value="wishlist">Wish list</option>
+                  <option value="applied">Applied</option>
+                  <option value="interview">Interview</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+            </div>
             <div class="job_position_name">
               <label for="job_position_name" class="col-form-label">Job Position Name</label>
               <input type="text" id="job-position-name" class="form-control" />
