@@ -53,6 +53,19 @@
             background-color: lightgrey;
         }
 
+        #posting-box {
+            display: none;
+        }
+
+        .modal-dialog {
+            overflow-y: initial !important
+        }
+
+        .modal-body {
+            height: 80vh;
+            overflow-y: auto;
+        }
+
         #calendar {
             max-width: 700px
         }
@@ -60,6 +73,11 @@
 
     <!-- JS -->
     <script>
+        function close() {
+            console.log('close clicked');
+            //$("#exampleModal").modal("hide");
+        }
+
         // get today's date
         function today() {
             var now = new Date();
@@ -70,6 +88,7 @@
             var today = now.getFullYear() + "-" + (month) + "-" + (day);
             return today
         }
+
 
         $("#exampleModal").on("show.bs.modal", function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
@@ -119,8 +138,9 @@
             job_description = $("#job-description").val()
             company_name = $("#company-name").val()
             company_location = $("#company-location").val()
-            date = $("#Apply-date").val(),
-                memo = $('#User-memo').val()
+            date = $("#Apply-date").val()
+            memo = $('#User-memo').val()
+            status = $('#status').val()
 
             $.ajax({
                 type: "POST",
@@ -133,7 +153,7 @@
                     'company_location': company_location,
                     'date': date,
                     'memo': memo,
-                    'unique_id': 'asdf'
+                    'status': status
                 },
                 success: function (response) {
                     alert(response['success_msg'])
@@ -237,7 +257,15 @@
                             <input id="input-url" type="text" /> <button type="button" class="btn btn-primary"
                                 onclick="request_url()">클릭</button>
                         </div>
-
+                        <div class="status">
+                            <label for="status">Board:</label>
+                            <select id="status" name="status">
+                                <option value="wishlist">Wish list</option>
+                                <option value="applied">Applied</option>
+                                <option value="interview">Interview</option>
+                                <option value="rejected">Rejected</option>
+                            </select>
+                        </div>
                         <div class="job_position_name">
                             <label for="job_position_name" class="col-form-label">Job Position Name</label>
                             <input type="text" id="job-position-name" class="form-control" />
@@ -274,13 +302,16 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" onclick="save()">Save</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                        Close
-                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
 
     <!-- render calendar -->
     <script src='static/fullcalendar/packages/core/main.js'></script>
@@ -358,6 +389,7 @@
                 $('#exampleModal').modal('show');
                 $('#Apply-date').val(info.dateStr);
             });
+            
             console.log(calendar.getEventById('2022-02-01-1'))
         });
 
