@@ -77,8 +77,7 @@
     <script src='static/fullcalendar/packages/daygrid/main.js'></script>
 
     <script>
-        var all_applications = [];
-        window.onload = function () {
+        function get_list(arr) {
             $.ajax({
                 type: "GET",
                 url: "/list",
@@ -89,17 +88,17 @@
                     for (let i = 0; i < app.length; i++) {
                         job_position = app[i]['job_position']
                         date = app[i]['date']
-                        id = app[i]['_id']
-                        console.log(id)
-                        all_applications.push({ 'title': job_position, 'start': date, 'id': id })
+                        id = app[i]['id']
+                        arr.push({ 'title': job_position, 'start': date, 'id': id })
                     }
                 }
             });
-            console.log(all_applications)
-        };
+        }
 
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar');
+            var all_applications = []
+            get_list(all_applications)
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 plugins: ['interaction', 'dayGrid'],
@@ -107,11 +106,11 @@
                 editable: true,
                 eventLimit: true, // allow "more" link when too many events
                 eventClick: function (info) {
-                    const check_id = obj => obj.id === info.event.id;
-                    console.log(all_applications.some(check_id))
+                    console.log(info.event.id)
                 },
                 events: all_applications
             });
+            console.log(all_applications)
 
             calendar.render();
 
