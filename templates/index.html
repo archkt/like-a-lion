@@ -112,6 +112,32 @@
         }
       });
     }
+    function generate_id(date) {
+      //console.log(date)
+      var str = ''
+      $.ajax({
+        type: "GET",
+        url: "/list",
+        data: {},
+        async: !1,
+        success: function (response) {
+          let arr = response['application'];
+          console.log(arr)
+          count = 0;
+          for (i = 0; i < arr.length; i++) {
+            if (arr[i]['date'] == date) {
+              count += 1
+            }
+          }
+          console.log('inside generate_id: ' + count)
+          str = date + "-" + count;
+        },
+        error: function () {
+          console.log('no data available');
+        }
+      })
+      return str;
+    }
     function save() {
       url = $('#input-url').val()
       job_position = $("#job-position-name").val()
@@ -121,11 +147,13 @@
       date = $("#Apply-date").val()
       memo = $('#User-memo').val()
       status = $('#status').val()
-      
+      id = generate_id(date)
+      console.log('inside save function: ' + id)
       $.ajax({
         type: "POST",
         url: "/save",
         data: {
+          'id_str': id,
           'url': url,
           'job_position': job_position,
           'job_description': job_description,
@@ -141,6 +169,7 @@
         }
       })
     }
+
   </script>
 
   <!-- style -->
@@ -279,14 +308,14 @@
               <input id="input-url" type="text" /> <button type="button" class="btn btn-primary"
                 onclick="request_url()">클릭</button>
             </div>
-            <div class = "status">
+            <div class="status">
               <label for="status">Board:</label>
-                <select id="status" name="status">
-                  <option value="wishlist">Wish list</option>
-                  <option value="applied">Applied</option>
-                  <option value="interview">Interview</option>
-                  <option value="rejected">Rejected</option>
-                </select>
+              <select id="status" name="status">
+                <option value="wishlist">Wish list</option>
+                <option value="applied">Applied</option>
+                <option value="interview">Interview</option>
+                <option value="rejected">Rejected</option>
+              </select>
             </div>
             <div class="job_position_name">
               <label for="job_position_name" class="col-form-label">Job Position Name</label>
