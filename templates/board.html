@@ -45,44 +45,48 @@
                 type: "GET",
                 url: "/list",
                 data: {},
-                success: function(response){
-                let application = response['application'];
-                
-                for (let i = 0; i < application.length; i++) {
-                    // alert(application[i]['status'])
-                    if (application[i]['status'] == 'wishlist' && status == 'wishlist'){
-                        make_card(application[i]['company_name'], application[i]['job_position'],application[i]['date'],application[i]['status'],application[i]['id']);
-                        alert(application[i]['_id']);}  // '_id'  undefined 라고 뜸
-                    if (application[i]['status'] == 'applied' && status == 'applied'){
-                        make_card(application[i]['company_name'], application[i]['job_position'],application[i]['date'],application[i]['status'],application[i]['id']);}
-                    if (application[i]['status'] == 'interview' && status == 'interview'){
-                        make_card(application[i]['company_name'], application[i]['job_position'],application[i]['date'],application[i]['status'],application[i]['id']);}
-                    if (application[i]['status'] == 'rejected' && status == 'rejected'){
-                        alert(application[i]['_id']);
-                        make_card(application[i]['company_name'], application[i]['job_position'],application[i]['date'],application[i]['status'],application[i]['id']);}
-                }
+                success: function (response) {
+                    let application = response['application'];
+
+                    for (let i = 0; i < application.length; i++) {
+                        var id = application[i]['id']
+                        if (application[i]['status'] == 'wishlist' && status == 'wishlist') {
+                            make_card(application[i]['company_name'], application[i]['job_position'], application[i]['date'], application[i]['status'], id);
+                        }
+                        if (application[i]['status'] == 'applied' && status == 'applied') {
+                            make_card(application[i]['company_name'], application[i]['job_position'], application[i]['date'], application[i]['status'], id);
+                        }
+                        if (application[i]['status'] == 'interview' && status == 'interview') {
+                            make_card(application[i]['company_name'], application[i]['job_position'], application[i]['date'], application[i]['status'], id);
+                        }
+                        if (application[i]['status'] == 'rejected' && status == 'rejected') {
+                            make_card(application[i]['company_name'], application[i]['job_position'], application[i]['date'], application[i]['status'], id);
+                        }
+                    }
                 }
             })
-            }
+        }
 
-            function delete_id(id){
-                    alert(id);
-                    $.ajax({
-                        type: "POST",
-                        url: "/api/delete",
-                        data: { 'id': id },
-                        success: function (response) {
-                            if (response['result'] == 'success') {
-                                alert('삭제 완료! 안녕!')
-                                // 3. 변경된 정보를 반영하기 위해 새로고침합니다.
-                                // window.location.reload()
-                            }
-                        }
-                    });
-      }
+        function delete_id(id) {
+            console.log('inside delete_id() id= ' + id)
+            $.ajax({
+                type: "POST",
+                url: "/api/delete",
+                data: { 'id': id },
+                success: function (response) {
+                    if (response['result'] == 'success') {
 
-            
-            function make_card(company_name, job_position, date, status,id) {
+                        alert('삭제 완료! 안녕!')
+                        // 3. 변경된 정보를 반영하기 위해 새로고침합니다.
+                        window.location.reload()
+                    }
+                }
+            });
+        }
+
+
+        function make_card(company_name, job_position, date, status, id) {
+            console.log('inside make_card() id= ' + id)
             let temp_html =
                 `    <div class="row container">
                         <div class="card appcard column_job">
@@ -103,8 +107,8 @@
 
             $('#cards-box').append(temp_html);
         }
-                            
-    </script>    
+
+    </script>
     <!-- Style -->
     <style>
         html,
@@ -241,35 +245,35 @@
         </div>
     </div>
 
-        <!-- Scroll Down-->
+    <!-- Scroll Down-->
 
-        <!-- Buttons_WL, Ap, In, Re-->
-        <div>
-            <div class="center">
-                <button type="button" class="btn btn-light" onclick = "listing('wishlist')" >Wish List</button>
-                <button type="button" class="btn btn-light" onclick = "listing('applied')">Applied</button>
-                <button type="button" class="btn btn-light" onclick = "listing('interview')">Interview</button>
-                <button type="button" class="btn btn-light" onclick = "listing('rejected')">Rejected</button>
-            </div>
-
-            <!-- Button _ Create New  -->
-            <div class="createnew">
-                <button type="button" class="btn btn-light" > +Create New </button>
-            </div>
+    <!-- Buttons_WL, Ap, In, Re-->
+    <div>
+        <div class="center">
+            <button type="button" class="btn btn-light" onclick="listing('wishlist')">Wish List</button>
+            <button type="button" class="btn btn-light" onclick="listing('applied')">Applied</button>
+            <button type="button" class="btn btn-light" onclick="listing('interview')">Interview</button>
+            <button type="button" class="btn btn-light" onclick="listing('rejected')">Rejected</button>
         </div>
 
-
-        <!-- Card _ Application List -->
-        <div id = "cards-box">
+        <!-- Button _ Create New  -->
+        <div class="createnew">
+            <button type="button" class="btn btn-light"> +Create New </button>
         </div>
+    </div>
 
 
-        <!-- js / bootstrap component -->
+    <!-- Card _ Application List -->
+    <div id="cards-box">
+    </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
-            crossorigin="anonymous"></script>
-        <script src="static/js/main.js"></script>
+
+    <!-- js / bootstrap component -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+    <script src="static/js/main.js"></script>
     </div>
 
 </body>

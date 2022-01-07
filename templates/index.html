@@ -126,7 +126,9 @@
             }
           }
           console.log('inside generate_id: ' + count)
-          str = date + "-" + count;
+          str_date = String(date).split("-").join('')
+          str = String(str_date) + String(count);
+
         },
         error: function () {
           console.log('no data available');

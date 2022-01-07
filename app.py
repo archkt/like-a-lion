@@ -119,6 +119,7 @@ def save():
 def delete_id():
     # 1. 클라이언트가 전달한 name_give를 name_receive 변수에 넣습니다.
     id_receive = request.form['id']
+    print(id_receive)
     # 2. mystar 목록에서 delete_one으로 name이 name_receive와 일치하는 star를 제거합니다.
     db.application.delete_one({'id':id_receive})
     # 3. 성공하면 success 메시지를 반환합니다.
